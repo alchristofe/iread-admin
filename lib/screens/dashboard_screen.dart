@@ -4,6 +4,8 @@ import '../data/models/language.dart';
 import '../core/constants/app_colors.dart';
 import '../core/constants/app_text_styles.dart';
 import 'package:rive/rive.dart' hide Image;
+import 'package:shared_preferences/shared_preferences.dart';
+import 'login_screen.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
@@ -157,12 +159,28 @@ class _AdminSidebar extends StatelessWidget {
                   child: Icon(Icons.person, color: AppColors.primary),
                 ),
                 const SizedBox(width: 12),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text('Admin User', style: AppTextStyles.bodyMedium(context).copyWith(fontWeight: FontWeight.bold, color: AppColors.textDark)),
-                    Text('Super Access', style: AppTextStyles.bodySmall(context).copyWith(color: Colors.grey[600])),
-                  ],
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text('Admin User', style: AppTextStyles.bodyMedium(context).copyWith(fontWeight: FontWeight.bold, color: AppColors.textDark)),
+                      Text('Super Access', style: AppTextStyles.bodySmall(context).copyWith(color: Colors.grey[600])),
+                    ],
+                  ),
+                ),
+                IconButton(
+                  onPressed: () async {
+                    final prefs = await SharedPreferences.getInstance();
+                    await prefs.setBool('isLoggedIn', false);
+                    if (context.mounted) {
+                      Navigator.of(context).pushAndRemoveUntil(
+                        MaterialPageRoute(builder: (context) => const LoginScreen()),
+                        (route) => false,
+                      );
+                    }
+                  },
+                  icon: const Icon(Icons.logout, color: Colors.grey, size: 20),
+                  tooltip: 'Logout',
                 ),
               ],
             ),
