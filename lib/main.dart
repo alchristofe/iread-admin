@@ -4,17 +4,10 @@ import 'firebase_options.dart';
 import 'screens/dashboard_screen.dart';
 import 'screens/login_screen.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:flutter/foundation.dart';
-import 'package:shared_preferences_web/shared_preferences_web.dart';
-import 'package:shared_preferences_platform_interface/shared_preferences_platform_interface.dart';
+import 'core/helpers/storage_helper.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  
-  if (kIsWeb) {
-    SharedPreferencesStorePlatform.instance = SharedPreferencesPlugin();
-  }
 
   try {
     print('DEBUG: Initializing Firebase...');
@@ -63,8 +56,7 @@ class MyApp extends StatelessWidget {
 
   Future<bool> _checkLoginStatus() async {
     try {
-      final prefs = await SharedPreferences.getInstance();
-      return prefs.getBool('isLoggedIn') ?? false;
+      return await getLoginState();
     } catch (e) {
       print('DEBUG: Auth check error: $e');
       return false;
