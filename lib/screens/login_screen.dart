@@ -45,8 +45,9 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void _validateForm() {
-    final isValid = _usernameController.text.trim().isNotEmpty && 
-                    _passwordController.text.trim().isNotEmpty;
+    final isValid =
+        _usernameController.text.trim().isNotEmpty &&
+        _passwordController.text.trim().isNotEmpty;
     if (isValid != _isFormFilled) {
       setState(() => _isFormFilled = isValid);
     }
@@ -81,8 +82,11 @@ class _LoginScreenState extends State<LoginScreen> {
       if (mounted) {
         setState(() {
           _isLoading = false;
-          _errorMessage = e.code == 'invalid-credential' || e.code == 'user-not-found' || e.code == 'wrong-password' 
-              ? 'Invalid email or password' 
+          _errorMessage =
+              e.code == 'invalid-credential' ||
+                  e.code == 'user-not-found' ||
+                  e.code == 'wrong-password'
+              ? 'Invalid email or password'
               : e.message ?? 'Authentication failed';
         });
       }
@@ -99,7 +103,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     final bool isMobile = ResponsiveLayout.isMobile(context);
-    
+
     return Scaffold(
       backgroundColor: const Color(0xFF0F172A), // Premium Dark Slate background
       body: Stack(
@@ -139,17 +143,14 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
             ),
           ),
-          
+
           Positioned(
             top: 48,
             left: 48,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SvgPicture.asset(
-                  'assets/iread_logo_lightv1.svg',
-                  height: 38,
-                ),
+                SvgPicture.asset('assets/iread_logo_lightv1.svg', height: 38),
                 const SizedBox(height: 4),
                 Text(
                   'SUPER ADMIN PORTAL',
@@ -163,10 +164,13 @@ class _LoginScreenState extends State<LoginScreen> {
               ],
             ),
           ),
-          
+
           Center(
             child: SingleChildScrollView(
-              padding: const EdgeInsets.symmetric(horizontal: AppSpacing.l, vertical: AppSpacing.xl),
+              padding: const EdgeInsets.symmetric(
+                horizontal: AppSpacing.l,
+                vertical: AppSpacing.xl,
+              ),
               child: ConstrainedBox(
                 constraints: const BoxConstraints(
                   maxWidth: AppSpacing.loginCardWidth,
@@ -186,14 +190,16 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                     ),
                     AppSpacing.verticalL,
-                    
+
                     // Glassmorphism Login Card
                     ClipRRect(
                       borderRadius: BorderRadius.circular(28),
                       child: BackdropFilter(
                         filter: ImageFilter.blur(sigmaX: 12, sigmaY: 12),
                         child: Container(
-                          padding: EdgeInsets.all(isMobile ? AppSpacing.l : AppSpacing.xl),
+                          padding: EdgeInsets.all(
+                            isMobile ? AppSpacing.l : AppSpacing.xl,
+                          ),
                           decoration: BoxDecoration(
                             color: Colors.white.withValues(alpha: 0.05),
                             borderRadius: BorderRadius.circular(28),
@@ -216,27 +222,32 @@ class _LoginScreenState extends State<LoginScreen> {
                               children: [
                                 Text(
                                   'Sign In',
-                                  style: AppTextStyles.heading2(context).copyWith(color: Colors.white),
+                                  style: AppTextStyles.heading2(
+                                    context,
+                                  ).copyWith(color: Colors.white),
                                   textAlign: TextAlign.center,
                                 ),
                                 AppSpacing.verticalS,
                                 Text(
                                   'Secure access to curriculum management',
-                                  style: AppTextStyles.bodyMedium(context).copyWith(color: Colors.white70),
+                                  style: AppTextStyles.bodyMedium(
+                                    context,
+                                  ).copyWith(color: Colors.white70),
                                   textAlign: TextAlign.center,
                                 ),
                                 AppSpacing.verticalL,
-                                
+
                                 // Username Field
                                 _buildTextField(
                                   controller: _usernameController,
                                   label: 'Email Address',
                                   hint: 'admin@iread.com',
                                   icon: Icons.alternate_email_rounded,
-                                  validator: (v) => v!.isEmpty ? 'Enter your email' : null,
+                                  validator: (v) =>
+                                      v!.isEmpty ? 'Enter your email' : null,
                                 ),
                                 AppSpacing.verticalM,
-                                
+
                                 // Password Field
                                 _buildTextField(
                                   controller: _passwordController,
@@ -246,46 +257,66 @@ class _LoginScreenState extends State<LoginScreen> {
                                   isObscure: !_isPasswordVisible,
                                   suffixIcon: IconButton(
                                     icon: Icon(
-                                      _isPasswordVisible ? Icons.visibility_off_rounded : Icons.visibility_rounded,
+                                      _isPasswordVisible
+                                          ? Icons.visibility_off_rounded
+                                          : Icons.visibility_rounded,
                                       color: Colors.white38,
                                       size: 18,
                                     ),
-                                    onPressed: () => setState(() => _isPasswordVisible = !_isPasswordVisible),
+                                    onPressed: () => setState(
+                                      () => _isPasswordVisible =
+                                          !_isPasswordVisible,
+                                    ),
                                   ),
-                                  validator: (v) => v!.isEmpty ? 'Enter your password' : null,
+                                  validator: (v) =>
+                                      v!.isEmpty ? 'Enter your password' : null,
                                 ),
-                                
+
                                 if (_errorMessage != null) ...[
                                   AppSpacing.verticalM,
                                   Container(
                                     padding: AppSpacing.edgeInsetsM,
                                     decoration: BoxDecoration(
-                                      color: AppColors.error.withValues(alpha: 0.1),
+                                      color: AppColors.error.withValues(
+                                        alpha: 0.1,
+                                      ),
                                       borderRadius: BorderRadius.circular(12),
-                                      border: Border.all(color: AppColors.error.withValues(alpha: 0.2)),
+                                      border: Border.all(
+                                        color: AppColors.error.withValues(
+                                          alpha: 0.2,
+                                        ),
+                                      ),
                                     ),
                                     child: Row(
                                       children: [
-                                        const Icon(Icons.error_outline_rounded, color: AppColors.error, size: 16),
+                                        const Icon(
+                                          Icons.error_outline_rounded,
+                                          color: AppColors.error,
+                                          size: 16,
+                                        ),
                                         AppSpacing.horizontalS,
                                         Expanded(
                                           child: Text(
                                             _errorMessage!,
-                                            style: AppTextStyles.bodySmall(context).copyWith(color: AppColors.error),
+                                            style: AppTextStyles.bodySmall(
+                                              context,
+                                            ).copyWith(color: AppColors.error),
                                           ),
                                         ),
                                       ],
                                     ),
                                   ),
                                 ],
-                                
+
                                 AppSpacing.verticalL,
-                                
+
                                 Hero(
                                   tag: 'login_button',
                                   child: CustomButton(
                                     text: 'SIGN IN TO DASHBOARD',
-                                    onPressed: (_isFormFilled && !_isLoading) ? _login : null,
+                                    onPressed: (_isFormFilled && !_isLoading)
+                                        ? _login
+                                        : null,
                                     isLoading: _isLoading,
                                   ),
                                 ),
@@ -295,18 +326,25 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       ),
                     ),
-                    
+
                     AppSpacing.verticalL,
                     Text(
                       '© 2026 iRead Education — Platform Control',
-                      style: AppTextStyles.bodySmall(context).copyWith(color: Colors.white38, fontSize: 10),
+                      style: AppTextStyles.bodySmall(
+                        context,
+                      ).copyWith(color: Colors.white38, fontSize: 10),
                     ),
                     AppSpacing.verticalS,
                     TextButton.icon(
-                      onPressed: () => launchUrl(Uri.parse('https://iread-web1.vercel.app/')),
-                      icon: const Icon(Icons.public_rounded, size: 14, color: AppColors.primary),
+                      onPressed: () =>
+                          launchUrl(Uri.parse('https://iread.appsbynisu.com/')),
+                      icon: const Icon(
+                        Icons.public_rounded,
+                        size: 14,
+                        color: AppColors.primary,
+                      ),
                       label: Text(
-                        'Visit Official Website', 
+                        'Visit Official Website',
                         style: AppTextStyles.label(context).copyWith(
                           color: AppColors.primary,
                           fontSize: 12,
@@ -339,35 +377,54 @@ class _LoginScreenState extends State<LoginScreen> {
       children: [
         Padding(
           padding: const EdgeInsets.only(left: 4, bottom: 8),
-          child: Text(label, style: AppTextStyles.label(context).copyWith(color: Colors.white70, fontSize: 11)),
+          child: Text(
+            label,
+            style: AppTextStyles.label(
+              context,
+            ).copyWith(color: Colors.white70, fontSize: 11),
+          ),
         ),
         TextFormField(
           controller: controller,
           obscureText: isObscure,
           validator: validator,
-          style: AppTextStyles.bodyMedium(context).copyWith(color: Colors.white),
+          style: AppTextStyles.bodyMedium(
+            context,
+          ).copyWith(color: Colors.white),
           cursorColor: AppColors.primary,
           decoration: InputDecoration(
             hintText: hint,
-            hintStyle: AppTextStyles.bodyMedium(context).copyWith(color: Colors.white24),
+            hintStyle: AppTextStyles.bodyMedium(
+              context,
+            ).copyWith(color: Colors.white24),
             prefixIcon: Icon(icon, color: AppColors.primary, size: 20),
             suffixIcon: suffixIcon,
             filled: true,
             fillColor: Colors.white.withValues(alpha: 0.05),
-            contentPadding: const EdgeInsets.symmetric(horizontal: AppSpacing.m, vertical: 16),
+            contentPadding: const EdgeInsets.symmetric(
+              horizontal: AppSpacing.m,
+              vertical: 16,
+            ),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(16),
               borderSide: BorderSide.none,
             ),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(16),
-              borderSide: BorderSide(color: Colors.white.withValues(alpha: 0.1)),
+              borderSide: BorderSide(
+                color: Colors.white.withValues(alpha: 0.1),
+              ),
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(16),
-              borderSide: const BorderSide(color: AppColors.primary, width: 1.5),
+              borderSide: const BorderSide(
+                color: AppColors.primary,
+                width: 1.5,
+              ),
             ),
-            errorStyle: AppTextStyles.bodySmall(context).copyWith(color: AppColors.error),
+            errorStyle: AppTextStyles.bodySmall(
+              context,
+            ).copyWith(color: AppColors.error),
           ),
         ),
       ],
